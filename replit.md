@@ -21,7 +21,8 @@ pnpm workspace monorepo using TypeScript. Each package manages its own dependenc
 ```text
 artifacts-monorepo/
 ├── artifacts/              # Deployable applications
-│   └── api-server/         # Express API server
+│   ├── api-server/         # Express API server
+│   └── discord-bot/        # Discord bot with AI commands
 ├── lib/                    # Shared libraries
 │   ├── api-spec/           # OpenAPI spec + Orval codegen config
 │   ├── api-client-react/   # Generated React Query hooks
@@ -61,6 +62,24 @@ Express 5 API server. Routes live in `src/routes/` and use `@workspace/api-zod` 
 - `pnpm --filter @workspace/api-server run dev` — run the dev server
 - `pnpm --filter @workspace/api-server run build` — production esbuild bundle (`dist/index.cjs`)
 - Build bundles an allowlist of deps (express, cors, pg, drizzle-orm, zod, etc.) and externalizes the rest
+
+### `artifacts/discord-bot` (`@workspace/discord-bot`)
+
+Discord bot with AI-powered commands using OpenAI. All 7 command modules:
+
+1. **Chat/Asistente**: `!ia`, `!ia-rol`, `!ia-resume`, `!ia-explica`
+2. **Moderación**: `!ia-revisar`, `!ia-reescribe-safe`, `!ia-sugerir-regla`
+3. **Creatividad**: `!ia-historia`, `!ia-poema`, `!ia-titulo`, `!ia-personaje`
+4. **Study**: `!ia-quiz`, `!ia-flashcards`, `!ia-plan`
+5. **Código**: `!ia-code`, `!ia-debug`, `!ia-refactor`
+6. **Comunidad**: `!ia-bienvenida`, `!ia-evento`, `!ia-faq`
+7. **Presets**: `!ia-preset crear/usar/listar/eliminar`
+
+Required secrets: `DISCORD_TOKEN`, `OPENAI_API_KEY`
+Optional env vars: `AI_INTEGRATIONS_OPENAI_BASE_URL`, `PREFIX` (default: `!`), `PREFIX_2` (default: `?`)
+
+Presets are stored in `.discord-bot-data/presets.json` (gitignored).
+Workflow: "Discord Bot" — `pnpm --filter @workspace/discord-bot run dev`
 
 ### `lib/db` (`@workspace/db`)
 
